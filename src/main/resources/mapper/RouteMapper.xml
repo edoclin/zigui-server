@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cug.zigui.mapper.RouteMapper">
+
+    <update id="updatePolyline">
+        update public.t_route set route_polyline = ST_GeomFromText(#{routePolyline}) where route_id = #{routeId}
+    </update>
+    <update id="updateBaseInfo">
+        update public.t_route set route_name = #{routeName}, route_desc= #{routeDesc}, saved = true where route_id = #{routeId}
+    </update>
+    <update id="updateContent">
+        update public.t_route set content = #{content} where route_id = #{routeId}
+    </update>
+    <select id="toGeoJsonStr" resultType="string">
+        select st_asgeojson(route_polyline) from public.t_route where route_id = #{routeId}
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cug.zigui.mapper.RoutePointMapper">
+    <update id="updateBaseInfo">
+        update public.t_route_point set point_name = #{pointName}, point_desc= #{pointDesc} where point_id = #{pointId}
+    </update>
+    <update id="updateContent">
+        update public.t_route_point set content = #{content} where point_id = #{pointId}
+
+    </update>
+    <select id="pointAsGeom" resultType="java.lang.String">
+        select ST_GeomFromText(#{point}, 4326);
+    </select>
+    <select id="pointAsGeoJson" resultType="java.lang.String">
+        select st_asgeojson(point_location)
+        from public.t_route_point
+        where point_id = #{routePointId}
+    </select>
+
+    <insert id="insert">
+        insert into public.t_route_point(point_id, point_location, route_id)
+        values (#{pointId}, ST_GeomFromText(#{pointLocation}, 4326), #{routeId})
+    </insert>
+</mapper>

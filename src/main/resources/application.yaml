@@ -1,0 +1,48 @@
+spring:
+  servlet:
+    multipart:
+      max-request-size: 512MB
+      max-file-size: 512MB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      max-lifetime: 60000
+      connection-test-query: SELECT 1
+      auto-commit: true
+      idle-timeout: 30000
+      connection-timeout: 10000
+sa-token:
+  timeout: 86400
+  activity-timeout: 3600
+  token-style: tik
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: utf-8
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: true
+      logic-not-delete-value: false
+logging:
+  level:
+    cn.cug.zigui.mapper: debug
+zigui:
+  file-upload-path: /Users/edoclin/Document/zigui/src/main/resources/upload_file/
+  file-name-prefix: zigui_
+  file-server: http://localhost:8080/zigui/file/
+  init-user:
+    username: zigui
+    password: zigui
+    role: ADMIN
+  qiniu:
+    access-key: 2Rik_A5LHe5hz5CTRVAN_Ucys9Fwpn8e8I_eKoBf
+    secret-key: a8CrDZeKsZzFp7LdAXghEuDtWNzQbRtSR3q4pIDe
+    bucket: nilcode-store
