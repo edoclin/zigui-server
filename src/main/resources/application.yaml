@@ -5,9 +5,9 @@ spring:
       max-file-size: 512MB
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://110.42.156.29:5432/nilcode
+    username: nilcode
+    password: nilcode
     driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 5
@@ -44,5 +44,7 @@ zigui:
     role: ADMIN
   qiniu:
     access-key: 2Rik_A5LHe5hz5CTRVAN_Ucys9Fwpn8e8I_eKoBf
+#    access-key: Gm9sQKFnSBsk_xo_kxrerkx4bO9tK4DKRZZ7q5u4
     secret-key: a8CrDZeKsZzFp7LdAXghEuDtWNzQbRtSR3q4pIDe
+#    secret-key: Cil660b4gEYO2O2r61yKFaQO2s4fBrFmmikysfM8
     bucket: nilcode-store

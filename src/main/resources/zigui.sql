@@ -1,8 +1,3 @@
-CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_raster;
-CREATE EXTENSION fuzzystrmatch;
-CREATE EXTENSION postgis_tiger_geocoder;
-CREATE EXTENSION postgis_topology;
 create table t_user
 (
     user_id      varchar(32)  default ''::character varying     not null
@@ -69,7 +64,7 @@ create table t_file
 (
     file_id       varchar(32)  default ''::character varying not null
         constraint t_resource_pkey
-        primary key,
+            primary key,
     original_name varchar(128) default ''::character varying not null,
     local_name    varchar(128) default ''::character varying not null,
     deleted       boolean      default false                 not null,
@@ -84,7 +79,7 @@ create table spatial_ref_sys
     srid      integer not null
         primary key
         constraint spatial_ref_sys_srid_check
-        check ((srid > 0) AND (srid <= 998999)),
+            check ((srid > 0) AND (srid <= 998999)),
     auth_name varchar(256),
     auth_srid integer,
     srtext    varchar(2048),
@@ -100,7 +95,7 @@ create table t_resource
 (
     resource_id   varchar(32) default ''::character varying not null
         constraint t_resource_pk
-        primary key,
+            primary key,
     file_id       varchar(32) default ''::character varying not null,
     resource_type varchar(32) default ''::character varying not null,
     addition      text,
@@ -115,7 +110,7 @@ create table t_theme
 (
     theme_id     serial
         constraint t_theme_pk
-        primary key,
+            primary key,
     theme_name   varchar(128) default ''::character varying not null,
     theme_desc   text         default ''::text              not null,
     deleted      boolean      default false                 not null,
@@ -135,7 +130,7 @@ create table t_route_theme
 (
     route_theme_id varchar(64) default ''::character varying not null
         constraint t_route_theme_pk
-        primary key,
+            primary key,
     route_id       varchar(32) default ''::character varying not null,
     theme_id       integer     default 0                     not null,
     deleted        boolean     default false                 not null,
@@ -149,7 +144,7 @@ create table t_user_wx
 (
     open_id      varchar(32) default ''::character varying not null
         constraint t_user_wx_pk
-        primary key,
+            primary key,
     user_id      varchar(32) default ''::character varying not null,
     nick_name    varchar(64) default ''::character varying not null,
     gender       smallint    default 0                     not null,
@@ -164,5 +159,65 @@ create table t_user_wx
 alter table t_user_wx
     owner to postgres;
 
+create table t_role
+(
+    role_id      serial
+        constraint t_role_pk
+            primary key,
+    role_name    varchar(64) default ''::character varying not null,
+    deleted      boolean     default false                 not null,
+    created_time timestamp   default now(),
+    role_desc    text        default ''::text              not null
+);
 
+alter table t_role
+    owner to postgres;
+
+create unique index t_role_role_id_uindex
+    on t_role (role_id);
+
+create table t_permission
+(
+    permission_id   varchar(32) default ''::character varying not null
+        constraint t_permission_pk
+            primary key,
+    permission_name varchar(64) default ''::character varying not null,
+    deleted         boolean     default false                 not null,
+    created_time    timestamp   default now()                 not null,
+    permission_desc text        default ''::text              not null,
+    route_id        varchar(32) default ''::character varying not null
+);
+
+alter table t_permission
+    owner to postgres;
+
+create unique index t_permission_permission_id_uindex
+    on t_permission (permission_id);
+
+create table t_role_permission
+(
+    role_permission_id varchar(64) default ''::character varying not null
+        constraint t_role_permission_pk
+            primary key,
+    role_id            integer     default 0                     not null,
+    permission_id      varchar(32) default ''::character varying not null,
+    deleted            boolean     default false                 not null,
+    created_time       timestamp   default now()                 not null
+);
+
+alter table t_role_permission
+    owner to postgres;
+
+create unique index t_role_permission_role_permission_id_uindex
+    on t_role_permission (role_permission_id);
+
+create table t_user_role
+(
+    user_role_id varchar(32) default ''::character varying not null,
+    user_id      varchar(32) default ''::character varying not null,
+    role_id      integer     default 0                     not null
+);
+
+alter table t_user_role
+    owner to postgres;
 
